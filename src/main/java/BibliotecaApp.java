@@ -3,6 +3,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BibliotecaApp {
 
@@ -13,8 +14,11 @@ public class BibliotecaApp {
         addBooksToList(listOfBooks);
         Library biblioteca = new Library(listOfBooks, System.out);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        HashMap<String, Command> menuItems = new HashMap<>();
-        Console console = new Console(biblioteca, System.out, bufferedReader);
+        Map<String, Command> menuItems = new HashMap<>();
+        menuItems.put("1", new ListBooksCommand(biblioteca));
+        menuItems.put("q", new QuitCommand(new Exit()));
+        Menu menu = new Menu(System.out, menuItems);
+        Console console = new Console(biblioteca, System.out, bufferedReader, menu);
 
         console.runLibrary();
     }

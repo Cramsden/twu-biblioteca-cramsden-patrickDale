@@ -10,6 +10,9 @@ public class Menu {
     private Map<String, Command> menuItems;
 
     public Menu(PrintStream printStream, Map<String, Command> menuItems) {
+
+        this.printStream = printStream;
+        this.menuItems = menuItems;
     }
 
     public void generateMenu() {

@@ -27,7 +27,8 @@ public class ConsoleTest {
         output = mock(PrintStream.class);
         input = mock(BufferedReader.class);
         menuItems = new HashMap<>();
-        console = new Console(library, output, input);
+        Menu menu = mock(Menu.class);
+        console = new Console(library, output, input, menu);
 
     }
 

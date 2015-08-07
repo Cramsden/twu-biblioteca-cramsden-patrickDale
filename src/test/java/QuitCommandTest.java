@@ -6,30 +6,26 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by pdale on 8/5/15.
- */
 public class QuitCommandTest {
-
+    private Exit exit;
     private QuitCommand quitCommand;
-    private Library library;
 
     @Before
     public void setUp() throws Exception {
-        library = mock(Library.class);
-        quitCommand = new QuitCommand(library);
+        exit = mock(Exit.class);
+        quitCommand = new QuitCommand(exit);
     }
 
     @Test
     public void shouldExitApplicationWhenExecuteIsCalled() throws Exception {
         quitCommand.execute();
 
-        verify(library).close();
+        verify(exit).systemExit();
     }
 
     @Test
     public void shouldReturnACommandDescriptionWhenRequested() throws Exception {
         assertThat(quitCommand.description(), is("Quit"));
-
     }
 }
+

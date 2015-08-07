@@ -14,10 +14,6 @@ public class Library {
     private Collection<Book> books;
     private PrintStream printStream;
 
-    public Library(PrintStream printStream) {
-        this(new ArrayList<Book>(), printStream);
-    }
-
     public Library(List<Book> listOfBooks, PrintStream printStream) {
         this.books = listOfBooks;
         this.printStream = printStream;
@@ -31,9 +27,5 @@ public class Library {
         for (Book book : books) {
             printStream.println(book.toString());
         }
-    }
-
-    public Boolean close() {
-        return true;
     }
 }

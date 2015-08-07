@@ -2,17 +2,15 @@
  * Created by pdale on 8/5/15.
  */
 public class QuitCommand implements Command {
-    private Library library;
+    private Exit exit;
 
-    public QuitCommand(Library library) {
-
-        this.library = library;
+    public QuitCommand(Exit exit) {
+        this.exit = exit;
     }
 
     @Override
     public void execute() {
-
-        library.close();
+        exit.systemExit();
     }
 
     @Override

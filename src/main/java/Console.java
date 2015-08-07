@@ -9,29 +9,21 @@ public class Console {
     private Menu menu;
     private PrintStream printStream;
     private BufferedReader bufferedReader;
-    private boolean isNotTerminated;
 
-    public Console(Library library, PrintStream printStream, BufferedReader bufferedReader) {
+    public Console(Library library, PrintStream printStream, BufferedReader bufferedReader, Menu menu) {
         this.library = library;
         this.printStream = printStream;
         this.bufferedReader = bufferedReader;
-        isNotTerminated = true;
-//        menuItems.put("1", new ListBooksCommand(library));
-//        menuItems.put("q", new QuitCommand(this));
+        this.menu = menu;
     }
 
     public void openLibrary(){
         printStream.println(library.open());
     }
 
-
-    public void close() {
-        isNotTerminated = false;
-    }
-
     public void runLibrary() {
         openLibrary();
-        while (isNotTerminated) {
+        while (true) {
             menu.generateMenu();
             String choice = getChoice();
             menu.executeChoice(choice);
