@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ConsoleTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2015-08-05T19:05:20" hostname="pdale.local" time="0.137">
+  <properties/>
+  <testcase name="shouldGenerateMenu" classname="ConsoleTest" time="0.137"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
