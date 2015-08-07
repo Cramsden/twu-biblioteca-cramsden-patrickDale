@@ -50,4 +50,12 @@ public class LibraryTest {
         library.listAllBooks();
         verify(printStream, times(2)).println(anyString());
     }
+
+    @Test
+    public void shouldCloseWhenUserQuits() throws Exception {
+        assertTrue(library.close());
+
+    }
+
+
 }

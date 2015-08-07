@@ -8,18 +8,16 @@ public class Console {
     private Library library;
     private Menu menu;
     private PrintStream printStream;
-    private Map<String, Command> menuItems;
     private BufferedReader bufferedReader;
     private boolean isNotTerminated;
 
-    public Console(Library library, PrintStream printStream, Map<String, Command> menuItems, BufferedReader bufferedReader) {
+    public Console(Library library, PrintStream printStream, BufferedReader bufferedReader) {
         this.library = library;
         this.printStream = printStream;
-        this.menuItems = menuItems;
         this.bufferedReader = bufferedReader;
         isNotTerminated = true;
-        menuItems.put("1", new ListBooksCommand(library));
-        menuItems.put("q", new QuitCommand(this));
+//        menuItems.put("1", new ListBooksCommand(library));
+//        menuItems.put("q", new QuitCommand(this));
     }
 
     public void openLibrary(){

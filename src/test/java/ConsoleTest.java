@@ -4,9 +4,7 @@ import org.junit.Test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -29,7 +27,7 @@ public class ConsoleTest {
         output = mock(PrintStream.class);
         input = mock(BufferedReader.class);
         menuItems = new HashMap<>();
-        console = new Console(library, output, menuItems, input);
+        console = new Console(library, output, input);
 
     }
 

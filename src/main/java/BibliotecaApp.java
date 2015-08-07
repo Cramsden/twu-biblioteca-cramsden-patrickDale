@@ -14,7 +14,7 @@ public class BibliotecaApp {
         Library biblioteca = new Library(listOfBooks, System.out);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         HashMap<String, Command> menuItems = new HashMap<>();
-        Console console = new Console(biblioteca, System.out, menuItems, bufferedReader);
+        Console console = new Console(biblioteca, System.out, bufferedReader);
 
         console.runLibrary();
     }

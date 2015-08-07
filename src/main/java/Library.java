@@ -32,4 +32,8 @@ public class Library {
             printStream.println(book.toString());
         }
     }
+
+    public Boolean close() {
+        return true;
+    }
 }

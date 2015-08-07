@@ -2,16 +2,17 @@
  * Created by pdale on 8/5/15.
  */
 public class QuitCommand implements Command {
-    private Console libraryConsole;
+    private Library library;
 
-    public QuitCommand(Console libraryConsole) {
+    public QuitCommand(Library library) {
 
-        this.libraryConsole = libraryConsole;
+        this.library = library;
     }
 
     @Override
     public void execute() {
-        libraryConsole.close();
+
+        library.close();
     }
 
     @Override

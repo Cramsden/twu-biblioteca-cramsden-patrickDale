@@ -5,7 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by pdale on 8/5/15.
@@ -13,20 +12,19 @@ import static org.mockito.Mockito.when;
 public class QuitCommandTest {
 
     private QuitCommand quitCommand;
-    private Console libraryConsole;
+    private Library library;
 
     @Before
     public void setUp() throws Exception {
-        libraryConsole = mock(Console.class);
-        quitCommand = new QuitCommand(libraryConsole);
+        library = mock(Library.class);
+        quitCommand = new QuitCommand(library);
     }
 
     @Test
     public void shouldExitApplicationWhenExecuteIsCalled() throws Exception {
-
         quitCommand.execute();
-        verify(libraryConsole).close();
 
+        verify(library).close();
     }
 
     @Test

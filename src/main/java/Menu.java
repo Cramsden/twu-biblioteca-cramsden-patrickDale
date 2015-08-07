@@ -1,3 +1,4 @@
+import java.io.PrintStream;
 import java.util.Map;
 import java.util.Set;
 
@@ -5,9 +6,10 @@ import java.util.Set;
  * Created by ptang on 8/6/15.
  */
 public class Menu {
-    private Console printStream;
+    private PrintStream printStream;
+    private Map<String, Command> menuItems;
 
-    public Menu() {
+    public Menu(PrintStream printStream, Map<String, Command> menuItems) {
     }
 
     public void generateMenu() {
