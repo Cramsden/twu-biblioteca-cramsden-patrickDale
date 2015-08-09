@@ -48,6 +48,9 @@ public class Library {
             books.remove(bookToCheckout);
             printStream.println("Thank you! Enjoy the book");
         }
+        else {
+            printStream.println("That book is not available.");
+        }
     }
 
     private String userBookSelection() {

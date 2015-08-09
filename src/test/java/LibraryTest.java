@@ -115,4 +115,17 @@ public class LibraryTest {
 
         verify(printStream, never()).println("Thank you! Enjoy the book");
     }
+
+    @Test
+    public void shouldNotifyOfUnsuccessfulCheckoutWhenBookIsNotSuccessfullyCheckedOut() throws Exception {
+        Book book = mock(Book.class);
+        when(book.toString()).thenReturn("Book");
+        when(book.equalsName("Book1")).thenReturn(false);
+        when(bufferedReader.readLine()).thenReturn("Book1");
+        listOfBooks.add(book);
+
+        library.checkoutBook();
+
+        verify(printStream).println("That book is not available.");
+    }
 }
