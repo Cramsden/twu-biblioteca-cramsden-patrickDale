@@ -49,8 +49,14 @@ public class BookTest {
     }
 
     @Test
-    public void shouldBeCheckedOutAfterCheckingOut() throws Exception {
-//        assertThat();
+    public void shouldReturnTrueWhenBookNameEqualsBook() throws Exception {
+        assertTrue(book.equalsName(title));
+
+    }
+
+    @Test
+    public void shouldReturnFalseWhenBookNameDoesNotEqualBook() throws Exception {
+        assertFalse(book.equalsName("Not Book"));
 
     }
 }

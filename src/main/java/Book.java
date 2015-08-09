@@ -34,4 +34,12 @@ public class Book {
     private static String padRight(String s, int n) {
         return String.format("%1$-" + n + "s", s);
     }
+
+    public boolean equalsName(String bookName) {
+        if (title.equals(bookName)){
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -1,5 +1,6 @@
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,10 +14,12 @@ public class Library {
 
     private Collection<Book> books;
     private PrintStream printStream;
+    private BufferedReader bufferedReader;
 
-    public Library(List<Book> listOfBooks, PrintStream printStream) {
+    public Library(List<Book> listOfBooks, PrintStream printStream, BufferedReader bufferedReader) {
         this.books = listOfBooks;
         this.printStream = printStream;
+        this.bufferedReader = bufferedReader;
     }
 
     public String open() {
@@ -24,8 +27,33 @@ public class Library {
     }
 
     public void listAllBooks() {
+        int bookIndex = 1;
         for (Book book : books) {
-            printStream.println(book.toString());
+            printStream.println(bookIndex + ". " + book.toString());
+            bookIndex++;
         }
+    }
+
+
+    public void checkoutBook() {
+        printStream.println("Which book would you like to checkout?");
+        String bookToCheckoutName = userBookSelection();
+        Book bookToCheckout = null;
+        for (Book book : books) {
+            if (book.equalsName(bookToCheckoutName)) {
+                bookToCheckout = book;
+            }
+        }
+        books.remove(bookToCheckout);
+    }
+
+    private String userBookSelection() {
+        String input = "";
+        try {
+            input = bufferedReader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return input;
     }
 }
