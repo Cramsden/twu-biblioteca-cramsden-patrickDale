@@ -12,11 +12,13 @@ import java.util.List;
  */
 public class Library {
 
+    private List<Book> checkedOutBooks;
     private Collection<Book> books;
     private PrintStream printStream;
     private BufferedReader bufferedReader;
 
-    public Library(List<Book> listOfBooks, PrintStream printStream, BufferedReader bufferedReader) {
+    public Library( List<Book> listOfBooks,List<Book> checkedOutBooks, PrintStream printStream, BufferedReader bufferedReader) {
+        this.checkedOutBooks = checkedOutBooks;
         this.books = listOfBooks;
         this.printStream = printStream;
         this.bufferedReader = bufferedReader;
@@ -27,30 +29,36 @@ public class Library {
     }
 
     public void listAllBooks() {
-        int bookIndex = 1;
+        printStream.println();
         for (Book book : books) {
-            printStream.println(bookIndex + ". " + book.toString());
-            bookIndex++;
+            printStream.println(book.toString());
         }
+        printStream.println();
     }
 
 
     public void checkoutBook() {
         printStream.println("Which book would you like to checkout?");
         String bookToCheckoutName = userBookSelection();
-        Book bookToCheckout = null;
-        for (Book book : books) {
-            if (book.equalsName(bookToCheckoutName)) {
-                bookToCheckout = book;
-            }
-        }
+        Book bookToCheckout = findBookInList(bookToCheckoutName, books);
         if(bookToCheckout != null) {
             books.remove(bookToCheckout);
+            checkedOutBooks.add(bookToCheckout);
             printStream.println("Thank you! Enjoy the book");
         }
         else {
             printStream.println("That book is not available.");
         }
+    }
+
+    private Book findBookInList(String bookToCheckoutName, Collection<Book> bookList) {
+        Book bookToCheckout = null;
+        for (Book book : bookList) {
+            if (book.equalsName(bookToCheckoutName)) {
+                bookToCheckout = book;
+            }
+        }
+        return bookToCheckout;
     }
 
     private String userBookSelection() {
@@ -61,5 +69,22 @@ public class Library {
             e.printStackTrace();
         }
         return input;
+    }
+
+    public void returnBook() {
+        printStream.print("Enter the name of the book you want to return: ");
+        String bookToReturnName = userBookSelection();
+        Book bookToReturn = findBookInList(bookToReturnName,checkedOutBooks);
+        if(bookToReturn != null){
+            books.add(bookToReturn);
+            checkedOutBooks.remove(bookToReturn);
+            printStream.println("Thank you for returning the book.");
+        }
+        else {
+            printStream.println("That is not a valid book to return.");
+        }
+
+
+
     }
 }

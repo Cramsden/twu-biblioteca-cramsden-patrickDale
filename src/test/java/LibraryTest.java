@@ -21,13 +21,15 @@ public class LibraryTest {
     private List<Book> listOfBooks;
     private PrintStream printStream;
     private BufferedReader bufferedReader;
+    private List<Book> checkedOutBooks;
 
     @Before
     public void setup(){
         listOfBooks = new ArrayList<>();
+        checkedOutBooks = new ArrayList<>();
         printStream = mock(PrintStream.class);
         bufferedReader = mock(BufferedReader.class);
-        library = new Library(listOfBooks, printStream, bufferedReader);
+        library = new Library(listOfBooks, checkedOutBooks, printStream, bufferedReader);
     }
 
     @Test
@@ -49,9 +51,15 @@ public class LibraryTest {
         Book book2 = mock(Book.class);
         when(book2.toString()).thenReturn("Book");
         listOfBooks.add(book2);
-        Library library = new Library(listOfBooks, printStream, bufferedReader);
+        Library library = new Library(listOfBooks, checkedOutBooks, printStream, bufferedReader);
         library.listAllBooks();
         verify(printStream, times(2)).println(anyString());
+    }
+
+    @Test
+    public void shouldPrintLinesAboveAndBelowBooksWhenBooksAreListed() throws Exception {
+        library.listAllBooks();
+        verify(printStream, times(2)).println();
     }
 
     @Test
@@ -60,20 +68,10 @@ public class LibraryTest {
         verify(printStream).println("Which book would you like to checkout?");
     }
 
-    @Test
-    public void shouldPrintIndicesWhenListingBooks() throws Exception {
-        Book book = mock(Book.class);
-        when(book.toString()).thenReturn("Book");
-        listOfBooks.add(book);
-        Library library = new Library(listOfBooks,printStream, bufferedReader);
-        library.listAllBooks();
-        verify(printStream).println(contains("1."));
-    }
 
     @Test
     public void shouldUpdateLibraryWhenUserChecksOutBook() throws Exception {
         Book book = mock(Book.class);
-        when(book.toString()).thenReturn("Book");
         when(book.equalsName("Book")).thenReturn(true);
         when(bufferedReader.readLine()).thenReturn("Book");
         listOfBooks.add(book);
@@ -86,7 +84,6 @@ public class LibraryTest {
     @Test
     public void shouldNotRemoveABookWhenTheBookIsNotInLibrary() throws Exception {
         Book book = mock(Book.class);
-        when(book.toString()).thenReturn("Book");
         when(book.equalsName("Book1")).thenReturn(false);
         when(bufferedReader.readLine()).thenReturn("Book1");
         listOfBooks.add(book);
@@ -99,14 +96,19 @@ public class LibraryTest {
 
     @Test
     public void shouldTellUserToEnjoyBookWhenBookSuccessfullyCheckedOut() throws Exception {
+        Book book = mock(Book.class);
+        when(book.equalsName("Book")).thenReturn(true);
+        when(bufferedReader.readLine()).thenReturn("Book");
+        listOfBooks.add(book);
+
         library.checkoutBook();
+
         verify(printStream).println("Thank you! Enjoy the book");
     }
 
     @Test
     public void shouldNotTellUserToEnjoyBookWhenBookIsNotSuccessfullyCheckedOut() throws Exception {
         Book book = mock(Book.class);
-        when(book.toString()).thenReturn("Book");
         when(book.equalsName("Book1")).thenReturn(false);
         when(bufferedReader.readLine()).thenReturn("Book1");
         listOfBooks.add(book);
@@ -119,7 +121,6 @@ public class LibraryTest {
     @Test
     public void shouldNotifyOfUnsuccessfulCheckoutWhenBookIsNotSuccessfullyCheckedOut() throws Exception {
         Book book = mock(Book.class);
-        when(book.toString()).thenReturn("Book");
         when(book.equalsName("Book1")).thenReturn(false);
         when(bufferedReader.readLine()).thenReturn("Book1");
         listOfBooks.add(book);
@@ -128,4 +129,91 @@ public class LibraryTest {
 
         verify(printStream).println("That book is not available.");
     }
+
+    @Test
+    public void shouldAddCheckedOutBookToCheckedOutBooksListWhenBookGetsCheckedOut() throws Exception {
+        Book book = mock(Book.class);
+        when(book.equalsName("Book")).thenReturn(true);
+        when(bufferedReader.readLine()).thenReturn("Book");
+        listOfBooks.add(book);
+        library.checkoutBook();
+
+        assertFalse(checkedOutBooks.isEmpty());
+
+
+
+    }
+
+    @Test
+    public void shouldGetBookNameFromUserWhenUserReturnsABook() throws Exception {
+        library.returnBook();
+
+        verify(bufferedReader).readLine();
+    }
+
+    @Test
+    public void shouldPromtUserToEnterBookNameWhenUserWantsToReturnABook() throws Exception {
+        library.returnBook();
+
+        verify(printStream).print("Enter the name of the book you want to return: ");
+    }
+
+    @Test
+    public void shouldAddBookToListOfBooksWhenUserReturnsBookThatIsInCheckedOutBookList() throws Exception {
+        Book book = mock(Book.class);
+        when(bufferedReader.readLine()).thenReturn("Book");
+        when(book.equalsName("Book")).thenReturn(true);
+
+        checkedOutBooks.add(book);
+        library.returnBook();
+        assertFalse(listOfBooks.isEmpty());
+
+    }
+
+
+    @Test
+    public void shouldNotAddBookToListOfBooksWhenUserReturnsBookThatIsNotInCheckedOutBookList() throws Exception {
+        Book book = mock(Book.class);
+        when(bufferedReader.readLine()).thenReturn("Book");
+        when(book.equalsName("Book")).thenReturn(false);
+
+        checkedOutBooks.add(book);
+        library.returnBook();
+        assertTrue(listOfBooks.isEmpty());
+
+    }
+
+    @Test
+    public void shouldTellUserThankYouWhenBookSuccessfullyReturned() throws Exception {
+        Book book = mock(Book.class);
+        when(book.equalsName("Book")).thenReturn(true);
+        when(bufferedReader.readLine()).thenReturn("Book");
+        checkedOutBooks.add(book);
+
+        library.returnBook();
+
+        verify(printStream).println("Thank you for returning the book.");
+    }
+
+    @Test
+    public void shouldNotifyOfUnsuccessfulReturnWhenBookIsNotSuccessfullyReturned() throws Exception {
+        Book book = mock(Book.class);
+        when(bufferedReader.readLine()).thenReturn("Book");
+        when(book.equalsName("Book")).thenReturn(false);
+        checkedOutBooks.add(mock(Book.class));
+
+        library.returnBook();
+
+        verify(printStream).println("That is not a valid book to return.");
+    }
+
+
+
+    //    @Test
+//    public void shouldAddBookToLibraryWhenBookIsReturned() throws Exception {
+//        library.returnBook();
+//
+//        assertFalse(listOfBooks.isEmpty());
+//
+//    }
 }

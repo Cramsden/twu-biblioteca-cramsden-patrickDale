@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 /**
  * Created by ptang on 8/6/15.
@@ -19,16 +18,22 @@ public class MenuTest {
     private PrintStream printStream;
     private BufferedReader input;
     private Menu menu;
+    private CheckoutCommand checkoutCommand;
+    private ReturnCommand returnCommand;
 
     @Before
     public void setUp() {
         printStream = mock(PrintStream.class);
         input = mock(BufferedReader.class);
+        checkoutCommand = mock(CheckoutCommand.class);
         listBooksCommand = mock(ListBooksCommand.class);
+        returnCommand = mock(ReturnCommand.class);
         menuItems = new HashMap<>();
         menuItems.put("1", listBooksCommand);
         quitCommand = mock(QuitCommand.class);
         menuItems.put("q", quitCommand);
+        menuItems.put("2",checkoutCommand );
+        menuItems.put("3", returnCommand);
         menu = new Menu(printStream, menuItems);
     }
 
@@ -36,17 +41,13 @@ public class MenuTest {
     public void shouldGenerateMenu() throws Exception {
         when(listBooksCommand.description()).thenReturn("List Books");
         when(quitCommand.description()).thenReturn("Quit");
-        Map<String, Command> menuItems = new HashMap<>();
-        menuItems.put("1", listBooksCommand);
-        menuItems.put("q", quitCommand);
-        Menu menu = new Menu(printStream, menuItems);
         menu.generateMenu();
 
         verify(printStream).printf("%s: %s\n","1",listBooksCommand.description());
     }
 
     @Test
-    public void shouldExecuteOptionOneIfUserInputs1() throws Exception {
+    public void shouldExecuteListBooksCommandWhenUserInputs1() throws Exception {
 
         menu.executeChoice("1");
 
@@ -65,5 +66,20 @@ public class MenuTest {
         menu.executeChoice("q");
 
         verify(quitCommand).execute();
+    }
+
+
+    @Test
+    public void shouldExecuteCheckoutBookWhenUserEntersOptionTwo() throws Exception {
+
+        menu.executeChoice("2");
+
+        verify(checkoutCommand).execute();
+    }
+
+    @Test
+    public void shouldExecuteReturnBookWhenUserEntersOptionThree() throws Exception {
+        menu.executeChoice("3");
+        verify(returnCommand).execute();
     }
 }
