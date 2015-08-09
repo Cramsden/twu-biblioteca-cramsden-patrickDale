@@ -96,4 +96,23 @@ public class LibraryTest {
         assertFalse(listOfBooks.isEmpty());
 
     }
+
+    @Test
+    public void shouldTellUserToEnjoyBookWhenBookSuccessfullyCheckedOut() throws Exception {
+        library.checkoutBook();
+        verify(printStream).println("Thank you! Enjoy the book");
+    }
+
+    @Test
+    public void shouldNotTellUserToEnjoyBookWhenBookIsNotSuccessfullyCheckedOut() throws Exception {
+        Book book = mock(Book.class);
+        when(book.toString()).thenReturn("Book");
+        when(book.equalsName("Book1")).thenReturn(false);
+        when(bufferedReader.readLine()).thenReturn("Book1");
+        listOfBooks.add(book);
+
+        library.checkoutBook();
+
+        verify(printStream, never()).println("Thank you! Enjoy the book");
+    }
 }

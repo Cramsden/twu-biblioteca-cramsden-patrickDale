@@ -44,7 +44,10 @@ public class Library {
                 bookToCheckout = book;
             }
         }
-        books.remove(bookToCheckout);
+        if(bookToCheckout != null) {
+            books.remove(bookToCheckout);
+            printStream.println("Thank you! Enjoy the book");
+        }
     }
 
     private String userBookSelection() {
