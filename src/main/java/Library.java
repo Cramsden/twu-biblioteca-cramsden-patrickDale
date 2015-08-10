@@ -39,7 +39,7 @@ public class Library {
 
     public void checkoutBook() {
         printStream.println("Which book would you like to checkout?");
-        String bookToCheckoutName = userBookSelection();
+        String bookToCheckoutName = readLine();
         Book bookToCheckout = findBookInList(bookToCheckoutName, books);
         if(bookToCheckout != null) {
             books.remove(bookToCheckout);
@@ -61,7 +61,7 @@ public class Library {
         return bookToCheckout;
     }
 
-    private String userBookSelection() {
+    private String readLine() {
         String input = "";
         try {
             input = bufferedReader.readLine();
@@ -73,7 +73,7 @@ public class Library {
 
     public void returnBook() {
         printStream.print("Enter the name of the book you want to return: ");
-        String bookToReturnName = userBookSelection();
+        String bookToReturnName = readLine();
         Book bookToReturn = findBookInList(bookToReturnName,checkedOutBooks);
         if(bookToReturn != null){
             books.add(bookToReturn);
